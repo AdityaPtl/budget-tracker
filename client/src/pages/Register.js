@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function Register() {
   const [email, setEmail] = useState("");
@@ -13,50 +13,57 @@ function Register() {
     setError("");
 
     try {
-      const res = await axios.post("http://localhost:5050/api/auth/register", {
+      await axios.post("http://localhost:5050/api/auth/register", {
         email,
         password,
       });
-
-      localStorage.setItem("token", res.data.token);
-      navigate("/dashboard");
+      navigate("/"); // Redirect to login
     } catch (err) {
-      setError("Something went wrong — try a different email.");
+      console.error(err);
+      setError("Registration failed. Email may already be in use.");
     }
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md w-full max-w-sm">
-        <h2 className="text-2xl font-bold mb-4 text-center">Register</h2>
+    <div className="flex justify-center items-start bg-white min-h-screen pt-32">
+      <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 w-full max-w-sm">
+        <h2 className="text-2xl font-semibold mb-4 text-center">Register</h2>
+        {error && <p className="text-red-500 mb-4">{error}</p>}
 
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full p-2 mb-4 border rounded"
-          required
-        />
+        <form onSubmit={handleSubmit}>
+          <input
+            type="email"
+            placeholder="Email"
+            className="w-full mb-3 p-2 border rounded"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full p-2 mb-4 border rounded"
-          required
-        />
+          <input
+            type="password"
+            placeholder="Password"
+            className="w-full mb-4 p-2 border rounded"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
 
-        {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
+          <button
+            type="submit"
+            className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700"
+          >
+            Register
+          </button>
+        </form>
 
-        <button
-          type="submit"
-          className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700"
-        >
-          Register
-        </button>
-      </form>
+        <p className="text-sm text-center mt-4">
+          Already have an account?{" "}
+          <Link to="/" className="text-blue-600 hover:underline">
+            Login here
+          </Link>
+        </p>
+      </div>
     </div>
   );
 }

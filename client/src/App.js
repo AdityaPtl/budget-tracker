@@ -4,6 +4,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Data from "./pages/Data";
+import MonthlyBreakdown from "./pages/MonthlyBreakdown";
 import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
@@ -11,15 +12,29 @@ function App() {
     <Router>
       <NavBar />
       <Routes>
-        <Route path="/data" element={<PrivateRoute> <Data /> </PrivateRoute>}/>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
-
         <Route
           path="/dashboard"
           element={
             <PrivateRoute>
               <Dashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/data"
+          element={
+            <PrivateRoute>
+              <Data />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/monthly-breakdown"
+          element={
+            <PrivateRoute>
+              <MonthlyBreakdown />
             </PrivateRoute>
           }
         />

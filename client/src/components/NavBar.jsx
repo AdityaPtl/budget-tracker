@@ -3,13 +3,16 @@ import { Link } from "react-router-dom";
 function NavBar() {
   return (
     <nav className="bg-gray-100 p-4 shadow mb-6">
-      <div className="flex justify-between max-w-4xl mx-auto">
+      <div className="flex justify-between max-w-4xl mx-auto items-center">
         <div className="space-x-4">
           <Link to="/dashboard" className="text-blue-600 font-medium hover:underline">
             Dashboard
           </Link>
           <Link to="/data" className="text-blue-600 font-medium hover:underline">
             Data
+          </Link>
+          <Link to="/monthly-breakdown" className="text-blue-600 font-medium hover:underline">
+            Monthly Breakdown
           </Link>
         </div>
         <button
