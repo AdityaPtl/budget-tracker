@@ -14,6 +14,9 @@ function NavBar() {
           <Link to="/monthly-breakdown" className="text-blue-600 font-medium hover:underline">
             Monthly Breakdown
           </Link>
+          <Link to="/compound-interest" className="text-blue-600 font-medium hover:underline">
+            Compound Interest
+          </Link>
         </div>
         <button
           onClick={() => {

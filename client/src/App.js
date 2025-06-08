@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard";
 import Data from "./pages/Data";
 import MonthlyBreakdown from "./pages/MonthlyBreakdown";
 import PrivateRoute from "./components/PrivateRoute";
+import CompoundInterest from "./pages/CompoundInterest";
 
 function App() {
   return (
@@ -29,6 +30,14 @@ function App() {
               <Data />
             </PrivateRoute>
           }
+        />
+        <Route 
+          path="/compound-interest" 
+          element={
+            <PrivateRoute>
+              <CompoundInterest />
+            </PrivateRoute>
+          } 
         />
         <Route
           path="/monthly-breakdown"
