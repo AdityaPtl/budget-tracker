@@ -1,12 +1,14 @@
+// src/App.js
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavBar from "./components/NavBar";
+import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Dashboard from "./pages/Dashboard";
 import Data from "./pages/Data";
 import MonthlyBreakdown from "./pages/MonthlyBreakdown";
-import PrivateRoute from "./components/PrivateRoute";
 import CompoundInterest from "./pages/CompoundInterest";
+import Account from "./pages/Account";
+import BudgetPlanner from './pages/BudgetPlanner';
 
 function App() {
   return (
@@ -15,38 +17,12 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route
-          path="/dashboard"
-          element={
-            <PrivateRoute>
-              <Dashboard />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/data"
-          element={
-            <PrivateRoute>
-              <Data />
-            </PrivateRoute>
-          }
-        />
-        <Route 
-          path="/compound-interest" 
-          element={
-            <PrivateRoute>
-              <CompoundInterest />
-            </PrivateRoute>
-          } 
-        />
-        <Route
-          path="/monthly-breakdown"
-          element={
-            <PrivateRoute>
-              <MonthlyBreakdown />
-            </PrivateRoute>
-          }
-        />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/data" element={<Data />} />
+        <Route path="/monthly-breakdown" element={<MonthlyBreakdown />} />
+        <Route path="/compound-interest" element={<CompoundInterest />} />
+        <Route path="/account" element={<Account />} />
+        <Route path="/budget-planner" element={<BudgetPlanner />}/>
       </Routes>
     </Router>
   );

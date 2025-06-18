@@ -75,6 +75,10 @@ function MonthlyBreakdown() {
         const net = income - expenses;
         const pieData = getCategoryTotals(monthTx);
 
+        console.log("pieData", pieData);
+        console.log("income", income, "expenses", expenses);
+        console.log("monthTx", monthTx);
+
         return (
           <div key={month} className="bg-white shadow rounded p-4 mb-8">
             <h2 className="text-xl font-semibold mb-2">{month}</h2>
