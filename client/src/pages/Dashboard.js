@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+const API_BASE_URL =
+  process.env.REACT_APP_API_URL || "http://localhost:5050/api";
+
 function Dashboard() {
   const [transactions, setTransactions] = useState([]);
   const [error, setError] = useState("");
@@ -20,7 +23,7 @@ function Dashboard() {
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
-        const res = await axios.get("http://localhost:5050/api/transactions", {
+        const res = await axios.get(`${API_BASE_URL}/api/transactions`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setTransactions(res.data);
@@ -47,7 +50,7 @@ function Dashboard() {
     e.preventDefault();
     const finalCategory = formData.category === "" && customCategory !== "" ? customCategory : formData.category;
     try {
-      const res = await axios.post("http://localhost:5050/api/transactions", { ...formData, category: finalCategory }, {
+      const res = await axios.post(`${API_BASE_URL}/api/transactions`, { ...formData, category: finalCategory }, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTransactions([res.data, ...transactions]);
@@ -66,14 +69,14 @@ function Dashboard() {
     data.append("file", csvFile);
 
     try {
-      const res = await axios.post("http://localhost:5050/api/transactions/upload", data, {
+      const res = await axios.post(`${API_BASE_URL}/api/transactions/upload`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
         },
       });
       setUploadMessage(res.data.message);
-      const updated = await axios.get("http://localhost:5050/api/transactions", {
+      const updated = await axios.get(`${API_BASE_URL}/api/transactions`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTransactions(updated.data);
