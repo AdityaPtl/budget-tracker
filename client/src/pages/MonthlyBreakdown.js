@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 
+const API_BASE_URL =
+  process.env.REACT_APP_API_URL || "http://localhost:5050/api";
+
 const COLORS = ["#8884d8", "#82ca9d", "#ffc658", "#ff7f50", "#a29bfe", "#ff6b6b", "#00cec9"];
 
 function MonthlyBreakdown() {
@@ -13,7 +16,7 @@ function MonthlyBreakdown() {
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
-        const res = await axios.get("http://localhost:5050/api/transactions", {
+        const res = await axios.get("`${API_BASE_URL}/api/transactions", {
           headers: { Authorization: `Bearer ${token}` },
         });
         console.log("Fetched transactions:", res.data);

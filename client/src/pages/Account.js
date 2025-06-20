@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+const API_BASE_URL =
+  process.env.REACT_APP_API_URL || "http://localhost:5050/api";
+
 function Account() {
   const [email, setEmail] = useState("");
   const [newEmail, setNewEmail] = useState("");
@@ -13,7 +16,7 @@ function Account() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get("http://localhost:5050/api/users/me", {
+        const res = await axios.get("`${API_BASE_URL}/api/users/me", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setEmail(res.data.email);
@@ -30,7 +33,7 @@ function Account() {
     e.preventDefault();
     try {
       const res = await axios.put(
-        "http://localhost:5050/api/users/update",
+        "`${API_BASE_URL}/api/users/update",
         {
           email: newEmail,
           password: newPassword || undefined, // don't send empty string

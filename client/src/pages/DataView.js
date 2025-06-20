@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+const API_BASE_URL =
+  process.env.REACT_APP_API_URL || "http://localhost:5050/api";
+
 function DataView() {
   const [transactions, setTransactions] = useState([]);
   const token = localStorage.getItem("token");
@@ -8,7 +11,7 @@ function DataView() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get("http://localhost:5050/api/transactions", {
+        const res = await axios.get("`${API_BASE_URL}/api/transactions", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setTransactions(res.data);
