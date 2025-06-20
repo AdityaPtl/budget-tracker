@@ -1,22 +1,17 @@
 const jwt = require('jsonwebtoken');
-const pool = require('../db');
 
-const authenticateToken = async (req, res, next) => {
+function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
-  if (!token) return res.sendStatus(401);
+  const token = authHeader && authHeader.split(' ')[1]; // Expect "Bearer <token>"
 
-  try {
-    const user = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key');
-    const result = await pool.query('SELECT id FROM users WHERE id = $1', [user.userId]);
-    if (result.rows.length === 0) return res.sendStatus(403);
+  if (!token) return res.status(401).json({ error: 'No token provided' });
 
-    req.user = user;
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (err) return res.status(403).json({ error: 'Invalid token' });
+
+    req.user = user; // { userId: 1, iat: ..., exp: ... }
     next();
-  } catch (err) {
-    console.error('Token verification failed:', err);
-    res.sendStatus(403);
-  }
-};
+  });
+}
 
 module.exports = authenticateToken;
