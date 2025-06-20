@@ -2,16 +2,8 @@ import React, { useState } from "react";
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 
 const COLORS = [
-  "#8884d8",
-  "#82ca9d",
-  "#ffc658",
-  "#ff7f50",
-  "#a29bfe",
-  "#ff6b6b",
-  "#00cec9",
-  "#fdcb6e",
-  "#55efc4",
-  "#d63031",
+  "#8884d8", "#82ca9d", "#ffc658", "#ff7f50", "#a29bfe",
+  "#ff6b6b", "#00cec9", "#fdcb6e", "#55efc4", "#d63031",
 ];
 
 const FREQUENCY_FACTORS = {
@@ -55,8 +47,7 @@ const BudgetPlanner = () => {
   };
 
   const calculateTotals = () => {
-    let income = 0,
-      expenses = 0;
+    let income = 0, expenses = 0;
     Object.keys(inputs).forEach((category) => {
       Object.keys(inputs[category] || {}).forEach((subCategory) => {
         const value = parseFloat(inputs[category][subCategory]?.amount || 0);
@@ -162,7 +153,6 @@ const BudgetPlanner = () => {
                 cy="50%"
                 outerRadius={100}
                 fill="#8884d8"
-                label
               >
                 {pieData.map((_, index) => (
                   <Cell
