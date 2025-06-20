@@ -153,6 +153,8 @@ const BudgetPlanner = () => {
                 cy="50%"
                 outerRadius={100}
                 fill="#8884d8"
+                label={false}
+                labelLine={false}
               >
                 {pieData.map((_, index) => (
                   <Cell
