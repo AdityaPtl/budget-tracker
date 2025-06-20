@@ -16,7 +16,7 @@ function Account() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(`${API_BASE_URL}/api/users/me`, {
+        const res = await axios.get(`${API_BASE_URL}/users/me`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setEmail(res.data.email);
@@ -33,7 +33,7 @@ function Account() {
     e.preventDefault();
     try {
       const res = await axios.put(
-        `${API_BASE_URL}/api/users/update`,
+        `${API_BASE_URL}/users/update`,
         {
           email: newEmail,
           password: newPassword || undefined, // don't send empty string

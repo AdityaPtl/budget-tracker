@@ -11,7 +11,7 @@ function DataView() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`${API_BASE_URL}/api/transactions`, {
+        const res = await axios.get(`${API_BASE_URL}/transactions`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setTransactions(res.data);

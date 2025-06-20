@@ -16,7 +16,7 @@ function MonthlyBreakdown() {
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
-        const res = await axios.get(`${API_BASE_URL}/api/transactions`, {
+        const res = await axios.get(`${API_BASE_URL}/transactions`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         console.log("Fetched transactions:", res.data);
