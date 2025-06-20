@@ -9,8 +9,19 @@ dotenv.config();
 
 const app = express();
 
-// Middleware
-app.use(cors());
+const allowedOrigins = [
+  "http://localhost:5173", // dev frontend
+  "http://localhost:3000", // alt dev port if needed
+  "https://financial-planning-adi.com", // your deployed site
+];
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 
 // Routes
