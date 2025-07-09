@@ -3,7 +3,7 @@
 A full stack personal finance app that helps users track income, expenses, and financial goals with clean UI, smart categorization, and insightful breakdowns.
 
 ### 🌐 Live Demo  
-*(Custom domain coming soon – hosted on Render)*
+https://financial-planning-adi.com – hosted on Render
 
 ---
 
