@@ -31,42 +31,6 @@ https://financial-planning-adi.com – hosted on Render
 
 ---
 
-## 🚀 Getting Started
-
-To run locally:
-
-```bash
-git clone https://github.com/AdityaPtl/budget-tracker.git
-cd budget-tracker
-```
-
-### Backend Setup
-
-```bash
-cd backend
-npm install
-npm run dev
-```
-
-Ensure you add a `.env` file with the following:
-
-```env
-MONGO_URI=your_mongodb_uri
-JWT_SECRET=your_jwt_secret
-```
-
-### Frontend Setup
-
-In a separate terminal:
-
-```bash
-cd client
-npm install
-npm run dev
-```
-
----
-
 ## 🧠 Project Highlights
 
 This project is built to go far beyond a basic CRUD app — it focuses on **user-friendly financial tooling**, such as:
