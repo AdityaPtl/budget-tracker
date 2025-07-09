@@ -7,11 +7,12 @@ function Data() {
   const [error, setError] = useState("");
 
   const token = localStorage.getItem("token");
+  const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5050/api";
 
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
-        const res = await axios.get("http://localhost:5050/api/transactions", {
+        const res = await axios.get(`${API_BASE_URL}/transactions`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setTransactions(res.data);
@@ -28,9 +29,10 @@ function Data() {
     ...new Set(transactions.map((tx) => tx.category)),
   ];
 
-  const filteredTransactions = categoryFilter === "All"
-    ? transactions
-    : transactions.filter((tx) => tx.category === categoryFilter);
+  const filteredTransactions =
+    categoryFilter === "All"
+      ? transactions
+      : transactions.filter((tx) => tx.category === categoryFilter);
 
   const totalIncome = filteredTransactions
     .filter((tx) => tx.type === "income")
@@ -43,6 +45,8 @@ function Data() {
   return (
     <div className="max-w-2xl mx-auto px-4 mt-10">
       <h1 className="text-3xl font-bold mb-6 text-center">Data</h1>
+
+      {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
       <div className="mb-6 text-center">
         <h2 className="text-2xl font-bold mb-2">Spending Summary</h2>
@@ -89,7 +93,7 @@ function Data() {
             </p>
             <p className="text-sm text-gray-600">{tx.description}</p>
             <p className="text-xs text-gray-500">
-              {new Date(tx.date).toLocaleDateString("en-AU")}
+              {new Date(tx.date).toLocaleDateString()}
             </p>
           </div>
         ))}
