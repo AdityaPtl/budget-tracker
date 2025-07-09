@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   BarChart,
   Bar,
@@ -10,10 +10,10 @@ import {
 } from "recharts";
 
 function CompoundInterest() {
-  const [initialDeposit, setInitialDeposit] = useState("");
-  const [regularDeposit, setRegularDeposit] = useState("");
-  const [interestRate, setInterestRate] = useState("");
-  const [years, setYears] = useState("");
+  const [initialDeposit, setInitialDeposit] = useState("1000");
+  const [regularDeposit, setRegularDeposit] = useState("200");
+  const [interestRate, setInterestRate] = useState("5");
+  const [years, setYears] = useState("10");
   const [compoundFrequency, setCompoundFrequency] = useState("Monthly");
   const [depositFrequency, setDepositFrequency] = useState("Monthly");
   const [chartData, setChartData] = useState([]);
@@ -40,7 +40,7 @@ function CompoundInterest() {
 
     for (let i = 1; i <= yrs; i++) {
       const yearDeposit = rDep * depositPerYear * i;
-      const base = iDep + rDep * depositPerYear * i;
+      const base = iDep + yearDeposit;
       const fv = base * Math.pow(1 + r, compoundPerYear * i);
       const yearInterest = fv - base;
 
@@ -54,6 +54,11 @@ function CompoundInterest() {
 
     setChartData(data);
   };
+
+  useEffect(() => {
+    handleCalculate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const iDep = parseFloat(initialDeposit) || 0;
   const rDep = parseFloat(regularDeposit) || 0;
