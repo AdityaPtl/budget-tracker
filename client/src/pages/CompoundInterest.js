@@ -6,15 +6,14 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
-  Cell,
   Legend,
 } from "recharts";
 
 function CompoundInterest() {
-  const [initialDeposit, setInitialDeposit] = useState(0);
-  const [regularDeposit, setRegularDeposit] = useState(0);
-  const [interestRate, setInterestRate] = useState(0);
-  const [years, setYears] = useState(0);
+  const [initialDeposit, setInitialDeposit] = useState("");
+  const [regularDeposit, setRegularDeposit] = useState("");
+  const [interestRate, setInterestRate] = useState("");
+  const [years, setYears] = useState("");
   const [compoundFrequency, setCompoundFrequency] = useState("Monthly");
   const [depositFrequency, setDepositFrequency] = useState("Monthly");
   const [chartData, setChartData] = useState([]);
@@ -28,31 +27,27 @@ function CompoundInterest() {
   };
 
   const handleCalculate = () => {
+    const iDep = parseFloat(initialDeposit) || 0;
+    const rDep = parseFloat(regularDeposit) || 0;
+    const rate = parseFloat(interestRate) || 0;
+    const yrs = parseFloat(years) || 0;
+
     const compoundPerYear = compoundFrequency === "Monthly" ? 12 : 1;
     const depositPerYear = frequencyToMonths[depositFrequency];
+    const r = rate / 100 / compoundPerYear;
 
-    const r = interestRate / 100 / compoundPerYear;
-    const n = years * compoundPerYear;
-
-    let total = initialDeposit;
     let data = [];
-    let totalInterest = 0;
-    let totalDeposits = initialDeposit;
 
-    for (let i = 1; i <= years; i++) {
-      let yearDeposit = regularDeposit * depositPerYear * i;
-      let base = initialDeposit + regularDeposit * depositPerYear * i;
-      let fv = base * Math.pow(1 + r, compoundPerYear * i);
-
-      let yearInterest = fv - base;
-      totalInterest = yearInterest;
-      totalDeposits = initialDeposit + regularDeposit * depositPerYear * i;
-      total = totalDeposits + totalInterest;
+    for (let i = 1; i <= yrs; i++) {
+      const yearDeposit = rDep * depositPerYear * i;
+      const base = iDep + rDep * depositPerYear * i;
+      const fv = base * Math.pow(1 + r, compoundPerYear * i);
+      const yearInterest = fv - base;
 
       data.push({
         name: `${i}`,
-        initial: i === 1 ? initialDeposit : 0,
-        deposit: regularDeposit * depositPerYear * i,
+        initial: i === 1 ? iDep : 0,
+        deposit: yearDeposit,
         interest: yearInterest,
       });
     }
@@ -60,11 +55,10 @@ function CompoundInterest() {
     setChartData(data);
   };
 
-  const totalContributions =
-    initialDeposit +
-    regularDeposit *
-      frequencyToMonths[depositFrequency] *
-      years;
+  const iDep = parseFloat(initialDeposit) || 0;
+  const rDep = parseFloat(regularDeposit) || 0;
+  const yrs = parseFloat(years) || 0;
+  const totalContributions = iDep + rDep * frequencyToMonths[depositFrequency] * yrs;
 
   const futureValue =
     chartData.length > 0
@@ -84,7 +78,7 @@ function CompoundInterest() {
           <input
             type="number"
             value={initialDeposit}
-            onChange={(e) => setInitialDeposit(parseFloat(e.target.value))}
+            onChange={(e) => setInitialDeposit(e.target.value)}
             className="w-full border p-2 rounded"
           />
         </div>
@@ -93,7 +87,7 @@ function CompoundInterest() {
           <input
             type="number"
             value={regularDeposit}
-            onChange={(e) => setRegularDeposit(parseFloat(e.target.value))}
+            onChange={(e) => setRegularDeposit(e.target.value)}
             className="w-full border p-2 rounded"
           />
         </div>
@@ -127,7 +121,7 @@ function CompoundInterest() {
           <input
             type="number"
             value={years}
-            onChange={(e) => setYears(parseFloat(e.target.value))}
+            onChange={(e) => setYears(e.target.value)}
             className="w-full border p-2 rounded"
           />
         </div>
@@ -136,7 +130,7 @@ function CompoundInterest() {
           <input
             type="number"
             value={interestRate}
-            onChange={(e) => setInterestRate(parseFloat(e.target.value))}
+            onChange={(e) => setInterestRate(e.target.value)}
             className="w-full border p-2 rounded"
           />
         </div>
@@ -150,20 +144,22 @@ function CompoundInterest() {
 
       {chartData.length > 0 && (
         <>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={chartData} className="mb-8">
-              <XAxis dataKey="name" label={{ value: "Years", position: "insideBottom", offset: -5 }} />
-              <YAxis tickFormatter={(value) => `$${value.toLocaleString()}`} />
-              <Tooltip
-                formatter={(value, name) => [`$${value.toLocaleString()}`, name]}
-                labelFormatter={(label) => `Year ${label}`}
-              />
-              <Legend />
-              <Bar dataKey="initial" stackId="a" fill="#f97316" name="Initial Deposit" />
-              <Bar dataKey="deposit" stackId="a" fill="#ea580c" name="Regular Deposits" />
-              <Bar dataKey="interest" stackId="a" fill="#991b1b" name="Interest Earned" />
-            </BarChart>
-          </ResponsiveContainer>
+          <div style={{ width: "100%", height: 300 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={chartData}>
+                <XAxis dataKey="name" label={{ value: "Years", position: "insideBottom", offset: -5 }} />
+                <YAxis tickFormatter={(value) => `$${value.toLocaleString()}`} />
+                <Tooltip
+                  formatter={(value, name) => [`$${value.toLocaleString()}`, name]}
+                  labelFormatter={(label) => `Year ${label}`}
+                />
+                <Legend />
+                <Bar dataKey="initial" stackId="a" fill="#f97316" name="Initial Deposit" />
+                <Bar dataKey="deposit" stackId="a" fill="#ea580c" name="Regular Deposits" />
+                <Bar dataKey="interest" stackId="a" fill="#991b1b" name="Interest Earned" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
 
           <div className="mt-8 bg-gray-50 p-6 rounded shadow text-lg">
             <h2 className="text-xl font-semibold mb-4">Your strategy:</h2>
@@ -173,14 +169,14 @@ function CompoundInterest() {
                   <div className="w-4 h-4 rounded-sm bg-orange-500"></div>
                   <span>Initial deposit:</span>
                 </div>
-                <span className="font-semibold">${initialDeposit.toLocaleString()}</span>
+                <span className="font-semibold">${iDep.toLocaleString()}</span>
               </div>
               <div className="flex justify-between items-center">
                 <div className="flex items-center space-x-2">
                   <div className="w-4 h-4 rounded-sm bg-orange-600"></div>
                   <span>Regular deposits:</span>
                 </div>
-                <span className="font-semibold">${(totalContributions - initialDeposit).toLocaleString()}</span>
+                <span className="font-semibold">${(totalContributions - iDep).toLocaleString()}</span>
               </div>
               <div className="flex justify-between items-center">
                 <div className="flex items-center space-x-2">

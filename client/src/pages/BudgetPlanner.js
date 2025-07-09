@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 
 const COLORS = [
@@ -26,6 +26,25 @@ const categories = {
 
 const BudgetPlanner = () => {
   const [inputs, setInputs] = useState({});
+
+    // Load inputs from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem("budgetInputs");
+    if (saved) {
+      try {
+        setInputs(JSON.parse(saved));
+      } catch {
+        console.error("Failed to parse saved budget data");
+      }
+    }
+  }, []);
+
+  // Save inputs to localStorage on change
+  useEffect(() => {
+    localStorage.setItem("budgetInputs", JSON.stringify(inputs));
+  }, [inputs]);
+
+
   const [expandedSections, setExpandedSections] = useState({});
 
   const handleChange = (category, subCategory, field, value) => {
@@ -143,8 +162,8 @@ const BudgetPlanner = () => {
       {pieData.length > 0 && (
         <div className="bg-white mt-6 p-4 rounded-2xl shadow">
           <h2 className="text-lg font-semibold mb-2 text-center">Expense Breakdown</h2>
-          <div className="flex justify-center">
-            <PieChart width={320} height={280}>
+          <div className="flex justify-center overflow-x-auto">
+            <PieChart width={500} height={320}>
               <Pie
                 data={pieData}
                 dataKey="value"
