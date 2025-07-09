@@ -46,7 +46,7 @@ function CompoundInterest() {
 
       data.push({
         name: `${i}`,
-        initial: i === 1 ? iDep : 0,
+        initial: iDep,
         deposit: yearDeposit,
         interest: yearInterest,
       });
@@ -57,7 +57,6 @@ function CompoundInterest() {
 
   useEffect(() => {
     handleCalculate();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const iDep = parseFloat(initialDeposit) || 0;
@@ -155,8 +154,21 @@ function CompoundInterest() {
                 <XAxis dataKey="name" label={{ value: "Years", position: "insideBottom", offset: -5 }} />
                 <YAxis tickFormatter={(value) => `$${value.toLocaleString()}`} />
                 <Tooltip
-                  formatter={(value, name) => [`$${value.toLocaleString()}`, name]}
-                  labelFormatter={(label) => `Year ${label}`}
+                  content={({ payload, label }) => {
+                    if (!payload || !payload.length) return null;
+                    const data = payload[0].payload;
+                    const total = data.initial + data.deposit + data.interest;
+                    return (
+                      <div className="bg-white p-3 rounded shadow border text-sm">
+                        <p className="font-semibold mb-1">Year {label}</p>
+                        <p className="text-orange-500">Initial Deposit : ${data.initial.toLocaleString()}</p>
+                        <p className="text-orange-600">Regular Deposits : ${data.deposit.toLocaleString()}</p>
+                        <p className="text-red-700">Interest Earned : ${data.interest.toLocaleString()}</p>
+                        <hr className="my-1" />
+                        <p className="font-bold">Total: ${total.toLocaleString()}</p>
+                      </div>
+                    );
+                  }}
                 />
                 <Legend />
                 <Bar dataKey="initial" stackId="a" fill="#f97316" name="Initial Deposit" />
