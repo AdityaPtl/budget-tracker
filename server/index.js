@@ -10,9 +10,9 @@ dotenv.config();
 const app = express();
 
 const allowedOrigins = [
-  "http://localhost:5173", // dev frontend
-  "http://localhost:3000", // alt dev port if needed
-  "https://financial-planning-adi.com", // your deployed site
+  "http://localhost:5173",
+  "http://localhost:3000",
+  "https://financial-planning-adi.com",
 ];
 
 app.use(
@@ -36,6 +36,6 @@ app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../client", "build", "index.html"));
 });
 
-// Server start
+// Start server 
 const PORT = process.env.PORT || 5050;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
